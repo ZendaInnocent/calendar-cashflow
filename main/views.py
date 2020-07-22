@@ -12,7 +12,7 @@ def index(request):
     return render(request, 'main/index.html', context)
 
 
-def month_view(request, year, month):
+def month_detail_view(request, year, month):
     if request.method == "POST":
         start_day = request.POST['start-day'].upper()
         month = request.POST['month']
