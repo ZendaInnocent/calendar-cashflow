@@ -1,0 +1,26 @@
+.calendar {
+    width: 90%;
+}
+
+th {
+    text-align: center;
+}
+
+td {
+    border: 1px solid #333;
+    margin: 0;
+}
+
+td .title,
+td .date {
+    margin-bottom: 0 ;
+}
+
+td .date {
+    font-weight: bold;
+}
+
+.amount {
+    font-weight: bold;
+    float: right;
+}
