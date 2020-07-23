@@ -5,36 +5,58 @@ import datetime
 
 class CashFlowCalendar(HTMLCalendar):
 
-    def __init__(self, transactions=None):
+    def __init__(self, year, month, transactions=None):
         super(HTMLCalendar, self).__init__()
         self.transactions = transactions
+        self.year = int(year)
+        self.month = int(month)
 
-    def formatday(self, day, weekday, transactions=None):
+    def formatday(self, day, weekday):
         """
         Return a day as a table cell.
         """
-        # transactions_from_a_day = transactions.filter(day__day=day)
+        starting_amount = 0
+        funds_in = 0
+        funds_out = 0
+        ending_amount = 0
+
+        if day != 0:
+            q = self.transactions.filter(
+                date=datetime.date(year=self.year, month=self.month, day=day))
+
+            if day == 1:
+                starting_amount = 0
+
+            for item in q.values():
+                if item['status'] == 'D':
+                    funds_in = item['amount']
+                    funds_out = 0
+                    ending_amount = starting_amount + funds_in - funds_out
+                elif item['status'] == 'W':
+                    funds_in = 0
+                    funds_out = item['amount']
+
         transactions_html = "<div>"
-        # for transaction in transactions_from_a_day:
-        # for transaction in (1, 7):
         transactions_html += '<p class="title">\
-            Funds Out: <span class="amount">54,0493</span></p>'
+            Starting: <span class="amount"> ' + str(starting_amount) +'<span/></p>'
         transactions_html += '<p class="title">\
-            Funds In: <span class="amount">430,090</span></p>'
+            Funds Out: <span class="amount">' + str(funds_out) + '</span></p>'
         transactions_html += '<p class="title">\
-            Ending: <span class="amount">430,090</span>'
+            Funds In: <span class="amount">' + str(funds_in) + '</span></p>'
+        transactions_html += '<p class="title">\
+            Ending: <span class="amount">' + str(ending_amount) + '</span></p>'
 
         transactions_html += "</div>"
 
         if day == 0:     # day outside the month
             return '<td class="noday">&nbsp</td>'
         else:
-            return f'<td class="date">{day}\
+            return f'<td><b>{day}</b>\
                 {transactions_html}</td>'
 
-    def formatweek(self, theweek, transactions=None):
-        """
-        Return a complete week as a table row.
-        """
-        s = ''.join(self.formatday(d, wd, transactions) for (d, wd) in theweek)
-        return f'<tr>{s}</tr>'
+    # def formatweek(self, theweek, transactions=None):
+    #     """
+    #     Return a complete week as a table row.
+    #     """
+    #     s = ''.join(self.formatday(d, wd, transactions) for (d, wd) in theweek)
+    #     return f'<tr>{s}</tr>'
