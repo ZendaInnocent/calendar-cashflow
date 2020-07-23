@@ -1,3 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Transaction
+
+
+class TransactionManager(admin.ModelAdmin):
+    list_display = ('id', 'date', 'name', 'amount',
+                    'payment_type', 'account', 'status',)
+
+
+admin.site.register(Transaction, TransactionManager)

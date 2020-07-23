@@ -1,8 +1,10 @@
 import datetime
 import calendar
 
-from .utils import CashFlowCalendar
 from django.shortcuts import render, reverse, redirect
+
+from .utils import CashFlowCalendar
+from .models import Transaction
 
 
 def index(request):
@@ -13,6 +15,9 @@ def index(request):
 
 
 def month_detail_view(request, year, month):
+    queryset = Transaction.objects.all()
+
+
     if request.method == "POST":
         start_day = request.POST['start-day'].upper()
         month = request.POST['month']

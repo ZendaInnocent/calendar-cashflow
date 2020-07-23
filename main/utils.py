@@ -26,8 +26,8 @@ class CashFlowCalendar(HTMLCalendar):
 
         transactions_html += "</div>"
 
-        if day == 0:
-            return '<td class="noday">&nbsp</td>'  # day outside the month
+        if day == 0:     # day outside the month
+            return '<td class="noday">&nbsp</td>'
         else:
             return f'<td class="date">{day}\
                 {transactions_html}</td>'
