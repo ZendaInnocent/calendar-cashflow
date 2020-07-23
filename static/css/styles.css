@@ -16,10 +16,6 @@ td .date {
     margin-bottom: 0 ;
 }
 
-td .date {
-    font-weight: bold;
-}
-
 .amount {
     font-weight: bold;
     float: right;

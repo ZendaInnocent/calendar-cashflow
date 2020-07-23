@@ -1,6 +1,7 @@
 import datetime
 import calendar
 
+from django.db.models import Sum
 from django.shortcuts import render, reverse, redirect
 
 from .utils import CashFlowCalendar
@@ -15,16 +16,15 @@ def index(request):
 
 
 def month_detail_view(request, year, month):
-    queryset = Transaction.objects.all()
-
 
     if request.method == "POST":
+        q = Transaction.objects.values('date').annotate(total=Sum('amount'))
         start_day = request.POST['start-day'].upper()
         month = request.POST['month']
         year = request.POST['year']
 
         d = datetime.date(int(year), int(month), 1)
-        cal = CashFlowCalendar()
+        cal = CashFlowCalendar(transactions=q, month=month, year=year)
 
         previous_month = datetime.date(year=d.year, month=d.month, day=1)
         previous_month = previous_month - datetime.timedelta(days=1)
@@ -72,10 +72,11 @@ def month_detail_view(request, year, month):
             'year': year, 'month': month}), context)
 
     elif request.method == 'GET':
+        q = Transaction.objects.values('date').annotate(total=Sum('amount'))
         d = datetime.date(
             year=year, month=month, day=1)
 
-        cal = CashFlowCalendar()
+        cal = CashFlowCalendar(transactions=q, year=year, month=month)
         day = 0
 
         previous_month = datetime.date(year=d.year, month=d.month, day=1)
