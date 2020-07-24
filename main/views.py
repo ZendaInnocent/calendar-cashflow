@@ -18,7 +18,7 @@ def index(request):
 def month_detail_view(request, year, month):
 
     if request.method == "POST":
-        q = Transaction.objects.values('date').annotate(total=Sum('amount'))
+        q = Transaction.objects.values('date')
         start_day = request.POST['start-day'].upper()
         month = request.POST['month']
         year = request.POST['year']
@@ -68,11 +68,8 @@ def month_detail_view(request, year, month):
             'html_calendar': html_calendar
         }
 
-        return redirect(reverse('main:month-detail', kwargs={
-            'year': year, 'month': month}), context)
-
     elif request.method == 'GET':
-        q = Transaction.objects.values('date').annotate(total=Sum('amount'))
+        q = Transaction.objects.values('date')
         d = datetime.date(
             year=year, month=month, day=1)
 
