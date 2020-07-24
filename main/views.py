@@ -68,6 +68,9 @@ def month_detail_view(request, year, month):
             'html_calendar': html_calendar
         }
 
+        return redirect(reverse('main:month-detail', kwargs={
+            'year': year, 'month': month}), context)
+
     elif request.method == 'GET':
         q = Transaction.objects.values('date')
         d = datetime.date(
