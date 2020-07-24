@@ -8,12 +8,24 @@ from .models import Transaction
 
 
 @receiver(pre_save, sender=Transaction)
-def set_starting_amount(sender, instance, **kwargs):
-    if Transaction.objects.filter(date=instance.date - datetime.timedelta(days=1)):
-        starting_amount = Transaction.objects.filter(date=instance.date - datetime.timedelta(days=1)).aggregate(
+def set_starting_and_ending_amount(sender, instance, **kwargs):
+    prev_day_q = Transaction.objects.filter(
+        date=instance.date - datetime.timedelta(days=1))
+
+    if prev_day_q:
+        starting_amount = prev_day_q.aggregate(
             ending_amount=Sum('ending_amount'))
 
         instance.starting_amount = starting_amount['ending_amount']
 
     else:
         instance.starting_amount = 0
+
+    amount = instance.starting_amount
+
+    if instance.status == 'D':
+        amount += instance.amount
+    elif instance.status == 'W':
+        amount -= instance.amount
+
+    instance.ending_amount = amount

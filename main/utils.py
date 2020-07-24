@@ -22,8 +22,7 @@ class CashFlowCalendar(HTMLCalendar):
 
         if day != 0:
             day_in_q = datetime.date(year=self.year, month=self.month, day=day)
-            q = self.transactions.filter(
-                date=day_in_q)
+            q = self.transactions.filter(date=day_in_q)
 
             for item in q.values():
                 starting_amount = item['starting_amount']
@@ -32,8 +31,7 @@ class CashFlowCalendar(HTMLCalendar):
                 elif item['status'] == 'W':
                     funds_out += item['amount']
 
-            ending_amount = starting_amount + funds_in - funds_out
-
+                ending_amount = item['ending_amount']
 
         transactions_html = "<div>"
         transactions_html += '<p class="title">\
