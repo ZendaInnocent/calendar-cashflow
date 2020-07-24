@@ -49,8 +49,9 @@ class Command(BaseCommand):
                 else:
                     amount = int(deposit)
 
-            Transaction.objects.create(
+            trans = Transaction(
                 name=name, amount=amount, payment_type=theType,
                 account=account, status=status, date=date)
+            trans.save()
 
         self.stdout.write(f"{Transaction.objects.count()} Data Processed")
