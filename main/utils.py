@@ -21,10 +21,12 @@ class CashFlowCalendar(HTMLCalendar):
         ending_amount = 0
 
         if day != 0:
+            day_in_q = datetime.date(year=self.year, month=self.month, day=day)
             q = self.transactions.filter(
-                date=datetime.date(year=self.year, month=self.month, day=day))
+                date=day_in_q)
 
             for item in q.values():
+                starting_amount = item['starting_amount']
                 if item['status'] == 'D':
                     funds_in += item['amount']
                 elif item['status'] == 'W':
@@ -50,10 +52,3 @@ class CashFlowCalendar(HTMLCalendar):
         else:
             return f'<td><b>{day}</b>\
                 {transactions_html}</td>'
-
-    # def formatweek(self, theweek, transactions=None):
-    #     """
-    #     Return a complete week as a table row.
-    #     """
-    #     s = ''.join(self.formatday(d, wd, transactions) for (d, wd) in theweek)
-    #     return f'<tr>{s}</tr>'
