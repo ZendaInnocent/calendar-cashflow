@@ -30,7 +30,7 @@ class Transaction(models.Model):
     payment_type = models.CharField(max_length=2, choices=TYPE_CHOICES)
     account = models.CharField(max_length=3, choices=ACCOUNT_CHOICES)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()
     starting_amount = models.FloatField(default=0)
     ending_amount = models.FloatField(default=0)
 
