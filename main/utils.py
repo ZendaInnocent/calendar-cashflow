@@ -24,26 +24,30 @@ class CashFlowCalendar(HTMLCalendar):
             day_in_q = datetime.date(year=self.year, month=self.month, day=day)
             q = self.transactions.filter(date=day_in_q)
 
-            for item in q.values():
-                starting_amount = item['starting_amount']
-                if item['status'] == 'D':
-                    funds_in += item['amount']
-                elif item['status'] == 'W':
-                    funds_out += item['amount']
+            if q:
+                print(q)
+                for item in q.values():
+                    starting_amount = item['starting_amount']
+                    if item['status'] == 'D':
+                        funds_in += item['amount']
+                    elif item['status'] == 'W':
+                        funds_out += item['amount']
 
-                ending_amount = item['ending_amount']
+                    ending_amount = item['ending_amount']
 
-        transactions_html = "<div>"
-        transactions_html += '<p class="title">\
-            Starting: <span class="amount"> ' + str(starting_amount) +'<span/></p>'
-        transactions_html += '<p class="title">\
-            Funds Out: <span class="amount">' + str(funds_out) + '</span></p>'
-        transactions_html += '<p class="title">\
-            Funds In: <span class="amount">' + str(funds_in) + '</span></p>'
-        transactions_html += '<p class="title">\
-            Ending: <span class="amount">' + str(ending_amount) + '</span></p>'
+                transactions_html = "<div>"
+                transactions_html += '<p class="title">\
+                    Starting: <span class="amount"> ' + str(starting_amount) +'<span/></p>'
+                transactions_html += '<p class="title">\
+                    Funds Out: <span class="amount">' + str(funds_out) + '</span></p>'
+                transactions_html += '<p class="title">\
+                    Funds In: <span class="amount">' + str(funds_in) + '</span></p>'
+                transactions_html += '<p class="title">\
+                    Ending: <span class="amount">' + str(ending_amount) + '</span></p>'
 
-        transactions_html += "</div>"
+                transactions_html += "</div>"
+            else:
+                transactions_html = "<div>No Transactions</div>"
 
         if day == 0:     # day outside the month
             return '<td class="noday">&nbsp</td>'

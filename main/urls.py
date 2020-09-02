@@ -6,5 +6,7 @@ app_name = 'main'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('<int:year>/<int:month>/', views.month_detail_view, name='month-detail'),
+    path('<int:year>/<int:month>/',
+         views.month_detail_view, name='month-detail'),
+    path('transactions/', views.transactions_view, name='transactions'),
 ]

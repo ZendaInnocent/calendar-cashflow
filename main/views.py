@@ -116,3 +116,9 @@ def month_detail_view(request, year, month):
         }
 
     return render(request, 'main/month_detail.html', context)
+
+
+def transactions_view(request):
+    return render(request, 'main/transactions.html', {
+        'transactions': Transaction.objects.all().order_by('date'),
+    })

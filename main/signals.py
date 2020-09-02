@@ -9,15 +9,10 @@ from .models import Transaction
 
 @receiver(pre_save, sender=Transaction)
 def set_starting_and_ending_amount(sender, instance, **kwargs):
-    prev_day_q = Transaction.objects.filter(
-        date=instance.date - datetime.timedelta(days=1))
+    prev_transaction = Transaction.objects.last()
 
-    if prev_day_q:
-        starting_amount = prev_day_q.aggregate(
-            ending_amount=Sum('ending_amount'))
-
-        instance.starting_amount = starting_amount['ending_amount']
-
+    if prev_transaction:
+        instance.starting_amount = prev_transaction.ending_amount
     else:
         instance.starting_amount = 0
 
