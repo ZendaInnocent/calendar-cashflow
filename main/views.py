@@ -122,3 +122,10 @@ def transactions_view(request):
     return render(request, 'main/transactions.html', {
         'transactions': Transaction.objects.all().order_by('date'),
     })
+
+
+def month_transactions_view(request, year, month):
+    return render(request, 'main/transactions.html', {
+        'transactions': Transaction.objects.filter(
+            date__month=month, date__year=year),
+    })

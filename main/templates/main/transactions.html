@@ -16,6 +16,7 @@
         <div class="text-center py-3">
             <h1 class="text-center">Transactions</h1>
         </div>
+        {% if transactions %}
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -44,6 +45,9 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% else %}
+            <h3>No Transactions</h3>
+        {% endif %}
     </div>
 
 
