@@ -1,80 +1,62 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ month_name }} {{ selected_year}} - Cash Flow Calendar</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <div class="container">
-        <div class="text-center py-3">
-            <h1 class="text-center">Cash Flow Calendar</h1>
-            <a href="transactions/">
-              <h3 class="selected"></h3>
-            </a>
-        </div>
+{% block title %}
+  {{ month_name }} {{ selected_year}} - {{ block.super }}
+{% endblock title %}
 
-        <form method='POST' class="row d-flex justify-content-between align-items-center">
-            {% csrf_token %}
-            <div class="form-group">
-              <label for="start-day">Start Day</label>
-              <select class="form-control" name="start-day" id="start-day">
-                {% for day in days_names %}
-                <option value="{{ day }}"
-                    {% if selected_day == day %}selected{% endif %}
-                >{{ day }}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="month">Month</label>
-              <select class="form-control" name="month" id="month">
-                {% for month_num, month in months_names.items %}
-                <option value="{{ month_num }}"
-                    {% if selected_month == month_num %}selected{% endif %}
-                >
-                    {{ month }}
-                </option>
-                {% endfor %}
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="year">Year</label>
-              <select class="form-control" name="year" id="year">
-                {% for year in years %}
-                <option value="{{ year }}"
-                    {% if selected_year == year %}selected{% endif %}
-                >
-                    {{ year }}
-                </option>
-                {% endfor %}
-              </select>
-            </div>
-            <button type="submit" class="btn btn-secondary">Submit</button>
-        </form>
+{% block content %}
+<div class="container">
+  <div class="text-center py-3">
+    <h1 class="text-center">Cash Flow Calendar</h1>
+    <a href="transactions/">
+      <h3 class="selected"></h3>
+    </a>
+  </div>
+
+  <form method='POST' class="row d-flex justify-content-between align-items-center">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="start-day">Start Day</label>
+      <select class="form-control" name="start-day" id="start-day">
+        {% for day in days_names %}
+        <option value="{{ day }}" {% if selected_day == day %}selected{% endif %}>{{ day }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="month">Month</label>
+      <select class="form-control" name="month" id="month">
+        {% for month_num, month in months_names.items %}
+        <option value="{{ month_num }}" {% if selected_month == month_num %}selected{% endif %}>
+          {{ month }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="year">Year</label>
+      <select class="form-control" name="year" id="year">
+        {% for year in years %}
+        <option value="{{ year }}" {% if selected_year == year %}selected{% endif %}>
+          {{ year }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-secondary">Submit</button>
+  </form>
+</div>
+
+  <div class="container-fluid mt-3 calendar">
+
+    <div class="table-responsive">
+      {{ html_calendar | safe }}
     </div>
 
-    <div class="container-fluid mt-3 calendar">
+    <nav class="nav nav-tabs d-flex justify-content-between py-3">
+      <a class="nav-link" href="{{ previous_month }}">Previous Month</a>
+      <a class="nav-link" href="{{ next_month }}">Next Month</a>
+    </nav>
 
-        <div class="table-responsive">
-          {{ html_calendar | safe }}
-        </div>
-
-        <nav class="nav nav-tabs d-flex justify-content-between py-3">
-            <a class="nav-link" href="{{ previous_month }}">Previous Month</a>
-            <a class="nav-link" href="{{ next_month }}">Next Month</a>
-        </nav>
-
-    </div>
-
-
-    <script src="{% static 'js/popper.min.js' %}"></script>
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/main.js' %}"></script>
-</body>
-</html>
+  </div>
+{% endblock content %}

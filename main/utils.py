@@ -25,7 +25,6 @@ class CashFlowCalendar(HTMLCalendar):
             q = self.transactions.filter(date=day_in_q)
 
             if q:
-                print(q)
                 for item in q.values():
                     starting_amount = item['starting_amount']
                     if item['status'] == 'D':
