@@ -10,6 +10,7 @@
         <div class="text-center py-3">
             <h1 class="text-center">{{ subtitle }} Transactions</h1>
         </div>
+        <a href="{% url 'main:add-transaction' %}" class="btn btn-primary mb-3">Add Transaction</a>
         {% if transactions %}
         <table class="table table-bordered">
             <thead>
@@ -26,7 +27,9 @@
             <tbody>
                 {% for transaction in transactions %}
                 <tr>
-                    <td scope="row">{{ transaction.date }}</td>
+                    <td scope="row">
+                        <a href="{% url 'main:month-transactions' transaction.date.year transaction.date.month %}">{{ transaction.date }}</a>
+                    </td>
                     <td>{{ transaction.name }}</td>
                     <td>{{ transaction.amount }}</td>
                     <td>{{ transaction.get_payment_type_display }}</td>
