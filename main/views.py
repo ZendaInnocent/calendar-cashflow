@@ -86,6 +86,7 @@ def transactions_view(request):
     context = {
         'transactions': Transaction.objects.filter(user=request.user)
         .order_by('date'),
+        'subtitle': 'All',
     }
     return render(request, 'main/transactions.html', context)
 
@@ -95,6 +96,7 @@ def month_transactions_view(request, year, month):
     return render(request, 'main/transactions.html', {
         'transactions': Transaction.objects.filter(
             user=request.user, date__month=month, date__year=year),
+        'subtitle': calendar.month_name[month],
     })
 
 

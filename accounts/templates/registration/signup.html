@@ -7,8 +7,8 @@
 
 
 {% block content %}
-<div class="container">
-    <div class="my-5">
+    <div class="container col-md-6 my-5">
+        <h3>Create an Account</h3>
         <form method="POST">
             {% csrf_token %}
             {{ form | crispy }}
@@ -20,5 +20,4 @@
             </p>
         </div>
     </div>
-</div>
 {% endblock content %}

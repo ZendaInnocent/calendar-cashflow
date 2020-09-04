@@ -129,3 +129,6 @@ STATICFILES_DIRS = [
 AUTH_USER_MODEL = 'accounts.User'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_REDIRECT_URL = 'main:transactions'
+LOGOUT_REDIRECT_URL = '/'
