@@ -9,7 +9,7 @@ from .models import Transaction
 
 @receiver(pre_save, sender=Transaction)
 def set_starting_and_ending_amount(sender, instance, **kwargs):
-    prev_transaction = Transaction.objects.last()
+    prev_transaction = Transaction.objects.filter(user=instance.user).last()
 
     if prev_transaction:
         instance.starting_amount = prev_transaction.ending_amount

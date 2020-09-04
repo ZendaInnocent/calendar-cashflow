@@ -3,9 +3,11 @@ import calendar
 
 from django.db.models import Sum
 from django.shortcuts import render, reverse, redirect
-from django.views import generic
+from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 from .utils import CashFlowCalendar
 from .models import Transaction
@@ -19,8 +21,9 @@ def index(request):
     return render(request, 'main/index.html', context)
 
 
+@login_required
 def month_detail_view(request, year, month):
-    q = Transaction.objects.values('date')
+    q = Transaction.objects.filter(user=request.user).values('date')
     context = {}
 
     if request.method == 'POST':
@@ -78,23 +81,27 @@ def month_detail_view(request, year, month):
     return render(request, 'main/month_detail.html', context)
 
 
+@login_required
 def transactions_view(request):
-    return render(request, 'main/transactions.html', {
-        'transactions': Transaction.objects.all().order_by('date'),
-    })
+    context = {
+        'transactions': Transaction.objects.filter(user=request.user)
+        .order_by('date'),
+    }
+    return render(request, 'main/transactions.html', context)
 
 
+@login_required
 def month_transactions_view(request, year, month):
     return render(request, 'main/transactions.html', {
         'transactions': Transaction.objects.filter(
-            date__month=month, date__year=year),
+            user=request.user, date__month=month, date__year=year),
     })
 
 
-class TransactionAddView(SuccessMessageMixin,  generic.CreateView):
+class TransactionAddView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Transaction
     form_class = TransactionForm
-    success_url = reverse_lazy('main:index')
+    success_url = reverse_lazy('main:transactions')
     success_message = 'Transaction added successfully.'
 
     def get_context_data(self):
@@ -103,11 +110,16 @@ class TransactionAddView(SuccessMessageMixin,  generic.CreateView):
         context['button'] = 'Add'
         return context
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
-class TransactionUpdateView(SuccessMessageMixin, generic.UpdateView):
-    model = Transaction
+
+class TransactionUpdateView(LoginRequiredMixin,
+                            SuccessMessageMixin, UpdateView):
+    queryset = Transaction
     form_class = TransactionForm
-    success_url = reverse_lazy('main:index')
+    success_url = reverse_lazy('main:transactions')
     success_message = 'Transaction updated successfully.'
 
     def get_context_data(self):
@@ -115,3 +127,10 @@ class TransactionUpdateView(SuccessMessageMixin, generic.UpdateView):
         context['title'] = 'Update'
         context['button'] = 'Save'
         return context
+
+    def get_queryset(self):
+        return Transaction.objects.filter(user=self.request.user)
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)

@@ -2,6 +2,8 @@ import datetime
 
 from django.db import models
 
+from accounts.models import User
+
 
 class Transaction(models.Model):
     TYPE_CHOICES = (
@@ -27,11 +29,16 @@ class Transaction(models.Model):
         ('W', 'Withdrawal'),
     )
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     amount = models.PositiveIntegerField()
     payment_type = models.CharField(max_length=2, choices=TYPE_CHOICES)
     account = models.CharField(max_length=3, choices=ACCOUNT_CHOICES)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES)
+    # TO-DO
+    # date should be added automatically when item created
+    # date = models.DateField(auto_now_add=True)
+    # Now is for testing purpose only
     date = models.DateField()
     starting_amount = models.FloatField(default=0)
     ending_amount = models.FloatField(default=0)

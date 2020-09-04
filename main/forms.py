@@ -7,4 +7,4 @@ class TransactionForm(forms.ModelForm):
 
     class Meta:
         model = Transaction
-        exclude = ('starting_amount', 'ending_amount', )
+        exclude = ('user', 'starting_amount', 'ending_amount', )
