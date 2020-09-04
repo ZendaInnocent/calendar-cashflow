@@ -4,6 +4,7 @@ import calendar
 from django.db.models import Sum
 from django.shortcuts import render, reverse, redirect
 from django.views import generic
+from django.urls import reverse_lazy
 
 from .utils import CashFlowCalendar
 from .models import Transaction
@@ -104,7 +105,7 @@ class TransactionAddView(generic.CreateView):
 class TransactionUpdateView(generic.UpdateView):
     model = Transaction
     form_class = TransactionForm
-    success_url = 'main:index'
+    success_url = reverse_lazy('main:index')
 
     def get_context_data(self):
         context = super().get_context_data()
