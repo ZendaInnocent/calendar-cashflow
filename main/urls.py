@@ -13,4 +13,6 @@ urlpatterns = [
          views.month_transactions_view, name='month-transactions'),
     path('add-transaction/', views.TransactionAddView.as_view(),
          name='add-transaction'),
+    path('update-transaction/<pk>/', views.TransactionUpdateView.as_view(),
+         name='update-transaction'),
 ]

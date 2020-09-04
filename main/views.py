@@ -99,3 +99,15 @@ class TransactionAddView(generic.CreateView):
         context['title'] = 'Add'
         context['button'] = 'Add'
         return context
+
+
+class TransactionUpdateView(generic.UpdateView):
+    model = Transaction
+    form_class = TransactionForm
+    success_url = 'main:index'
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['title'] = 'Update'
+        context['button'] = 'Save'
+        return context

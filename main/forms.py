@@ -4,7 +4,6 @@ from .models import Transaction
 
 
 class TransactionForm(forms.ModelForm):
-    date = forms.CharField(widget=forms.DateInput)
 
     class Meta:
         model = Transaction
