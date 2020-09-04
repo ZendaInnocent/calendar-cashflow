@@ -11,4 +11,6 @@ urlpatterns = [
     path('transactions/', views.transactions_view, name='transactions'),
     path('<int:year>/<int:month>/transactions/',
          views.month_transactions_view, name='month-transactions'),
+    path('add-transaction/', views.TransactionAddView.as_view(),
+         name='add-transaction'),
 ]

@@ -3,9 +3,11 @@ import calendar
 
 from django.db.models import Sum
 from django.shortcuts import render, reverse, redirect
+from django.views import generic
 
 from .utils import CashFlowCalendar
 from .models import Transaction
+from .forms import TransactionForm
 
 
 def index(request):
@@ -85,3 +87,15 @@ def month_transactions_view(request, year, month):
         'transactions': Transaction.objects.filter(
             date__month=month, date__year=year),
     })
+
+
+class TransactionAddView(generic.CreateView):
+    model = Transaction
+    form_class = TransactionForm
+    success_url = 'main:index'
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['title'] = 'Add'
+        context['button'] = 'Add'
+        return context
