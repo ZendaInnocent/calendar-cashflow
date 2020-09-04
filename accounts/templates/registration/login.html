@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
+{% block title %}
+    Login - {{ block.super }}
+{% endblock title %}
+
+
 {% block content %}
 
     <div class="container col-md-6 my-5">
@@ -15,7 +20,7 @@
                 <a href="{% url 'accounts:password_change' %}">Forgot Password?</a>
             </p>
             <p>
-                Don't have account? <a href="{% url 'accounts:signup' %}">Register</a>
+                Don't have account? <a href="{% url 'accounts:signup' %}">Sign Up</a>
             </p>
         </div>
     </div>

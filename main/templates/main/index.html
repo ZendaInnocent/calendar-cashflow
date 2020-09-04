@@ -1,11 +1,35 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Home - {{ block.super }}
+{% endblock title %}
+
 
 {% block content %}
 
 <div class="container">
-    <div class="text-center py-3">
-        <h1 class="text-center">Cash Flow Calendar</h1>
-        <h3 class="selected"></h3>
+    <div class="row">
+    <div class="py-3 col-md-8">
+        <h1>Welcome to Cash Flow Calendar</h1>
+        <p class="lead">
+            The Cash Flow Calendar presents cash flows (cash coming in and going out) in a daily <b>calendar view</b>, based on transactions you make.
+        </p>
+        <p>
+            Test Phase, few featuers are ready.
+            <ul>
+                <li>Create Account</li>
+                <li>Add Transactions</li>
+                <li>View Calendar showing cash flows</li>
+                <li>View All Transactions made</li>
+                <li>View Transactions made in particular month</li>
+            </ul>
+        </p>
+        <p>
+            Feedback are warmly welcomed. Any bug you see or feature you would like to see, don't hesitate to fire up the mail to <a href="mailto:zendainnocent@protonmail.com">zendainnocent@protonmail.com</a> <br>
+        </p>
+    </div>
+
     </div>
 </div>
 
