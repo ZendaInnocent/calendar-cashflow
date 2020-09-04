@@ -5,6 +5,7 @@ from django.db.models import Sum
 from django.shortcuts import render, reverse, redirect
 from django.views import generic
 from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
 
 from .utils import CashFlowCalendar
 from .models import Transaction
@@ -90,10 +91,11 @@ def month_transactions_view(request, year, month):
     })
 
 
-class TransactionAddView(generic.CreateView):
+class TransactionAddView(SuccessMessageMixin,  generic.CreateView):
     model = Transaction
     form_class = TransactionForm
-    success_url = 'main:index'
+    success_url = reverse_lazy('main:index')
+    success_message = 'Transaction added successfully.'
 
     def get_context_data(self):
         context = super().get_context_data()
@@ -102,10 +104,11 @@ class TransactionAddView(generic.CreateView):
         return context
 
 
-class TransactionUpdateView(generic.UpdateView):
+class TransactionUpdateView(SuccessMessageMixin, generic.UpdateView):
     model = Transaction
     form_class = TransactionForm
     success_url = reverse_lazy('main:index')
+    success_message = 'Transaction updated successfully.'
 
     def get_context_data(self):
         context = super().get_context_data()
