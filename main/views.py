@@ -3,7 +3,7 @@ import calendar
 
 from django.db.models import Sum
 from django.shortcuts import render, reverse, redirect
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, FormView
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,14 +11,19 @@ from django.contrib.auth.decorators import login_required
 
 from .utils import CashFlowCalendar
 from .models import Transaction
-from .forms import TransactionForm
+from .forms import TransactionForm, ContactForm
 
 
-def index(request):
-    context = {
+class IndexView(SuccessMessageMixin, FormView):
+    form_class = ContactForm
+    template_name = 'main/index.html'
+    success_url = '/'
+    success_message = ('Your message has sent successful. '
+                       'Thank You for your time.')
 
-    }
-    return render(request, 'main/index.html', context)
+    def form_valid(self, form):
+        form.send_mail()
+        return super().form_valid(form)
 
 
 @login_required
