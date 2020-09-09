@@ -27,8 +27,10 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[])
-
+if not DEBUG:
+    ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[])
+else:
+    ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
@@ -149,5 +151,5 @@ else:
 
 if not DEBUG:
     SESSION_COOKIE_SECURE = True
-    # SECURE_SSL_REDIRECT = True
+    SECURE_SSL_REDIRECT = True
     CSRF_COOKIE_SECURE = True
