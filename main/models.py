@@ -30,7 +30,7 @@ class Transaction(models.Model):
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, help_text="Name of the Transaction")
     amount = models.PositiveIntegerField()
     payment_type = models.CharField(max_length=2, choices=TYPE_CHOICES)
     account = models.CharField(max_length=3, choices=ACCOUNT_CHOICES)
@@ -39,7 +39,7 @@ class Transaction(models.Model):
     # date should be added automatically when item created
     # date = models.DateField(auto_now_add=True)
     # Now is for testing purpose only
-    date = models.DateField()
+    date = models.DateField(help_text="Format: 'YYYY-MM-DD'")
     starting_amount = models.FloatField(default=0)
     ending_amount = models.FloatField(default=0)
 
