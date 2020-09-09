@@ -4,11 +4,18 @@ from django.core.mail import send_mail
 from .models import Transaction
 
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
 class TransactionForm(forms.ModelForm):
 
     class Meta:
         model = Transaction
         exclude = ('user', 'starting_amount', 'ending_amount', )
+        widgets = {
+            'date': DateInput(),
+        }
 
 
 class ContactForm(forms.Form):

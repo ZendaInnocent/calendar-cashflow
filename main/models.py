@@ -39,7 +39,7 @@ class Transaction(models.Model):
     # date should be added automatically when item created
     # date = models.DateField(auto_now_add=True)
     # Now is for testing purpose only
-    date = models.DateField(help_text="Format: 'YYYY-MM-DD'")
+    date = models.DateField(default=datetime.date.today())
     starting_amount = models.FloatField(default=0)
     ending_amount = models.FloatField(default=0)
 
