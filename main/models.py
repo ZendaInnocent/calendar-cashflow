@@ -1,4 +1,4 @@
-import datetime
+from django.utils import timezone
 
 from django.db import models
 
@@ -30,16 +30,12 @@ class Transaction(models.Model):
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, help_text="Name of the Transaction")
-    amount = models.PositiveIntegerField()
+    name = models.CharField('Name of the Transaction', max_length=255)
+    amount = models.FloatField()
     payment_type = models.CharField(max_length=2, choices=TYPE_CHOICES)
     account = models.CharField(max_length=3, choices=ACCOUNT_CHOICES)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES)
-    # TO-DO
-    # date should be added automatically when item created
-    # date = models.DateField(auto_now_add=True)
-    # Now is for testing purpose only
-    date = models.DateField(default=datetime.date.today())
+    date = models.DateField(default=timezone.now)
     starting_amount = models.FloatField(default=0)
     ending_amount = models.FloatField(default=0)
 
