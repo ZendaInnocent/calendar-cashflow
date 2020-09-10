@@ -5,25 +5,12 @@ from django.db import models
 from accounts.models import User
 
 
+class Account(models.Model):
+    name = models.CharField('Account Name', max_length=50)
+    account_type = models.CharField('Account Type', max_length=50)
+
+
 class Transaction(models.Model):
-    TYPE_CHOICES = (
-        ('CH', 'Check'),
-        ('CA', 'Cash'),
-        ('PA', 'Payment'),
-    )
-
-    ACCOUNT_CHOICES = (
-        ('BOZ', 'Bank Of Fredders'),
-        ('BI', 'Building & Construction'),
-        ('C', 'Cash'),
-        ('CA', 'Checking Account'),
-        ('EQ', 'Equipments'),
-        ('IP', 'Insurance Paid'),
-        ('LAM', 'Less Accum. Depreciation'),
-        ('PC', 'Petty Cash'),
-        ('SU', 'Supplies'),
-    )
-
     STATUS_CHOICES = (
         ('D', 'Deposit'),
         ('W', 'Withdrawal'),
@@ -32,8 +19,7 @@ class Transaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField('Name of the Transaction', max_length=255)
     amount = models.FloatField()
-    payment_type = models.CharField(max_length=2, choices=TYPE_CHOICES)
-    account = models.CharField(max_length=3, choices=ACCOUNT_CHOICES)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES)
     date = models.DateField(default=timezone.now)
     starting_amount = models.FloatField(default=0)
