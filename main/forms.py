@@ -1,7 +1,7 @@
 from django import forms
 from django.core.mail import send_mail
 
-from .models import Transaction
+from .models import Transaction, Account
 
 
 class DateInput(forms.DateInput):
@@ -9,6 +9,9 @@ class DateInput(forms.DateInput):
 
 
 class TransactionForm(forms.ModelForm):
+    # todo: return only accounts created by the user
+    account = forms.ModelChoiceField(Account.objects.all(),
+                                     empty_label='Choose Account')
 
     class Meta:
         model = Transaction

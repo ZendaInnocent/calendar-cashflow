@@ -32,8 +32,8 @@
                     </td>
                     <td>{{ transaction.name }}</td>
                     <td>{{ transaction.amount }}</td>
-                    <td>{{ transaction.get_payment_type_display }}</td>
-                    <td>{{ transaction.get_account_display }}</td>
+                    <td>{{ transaction.account.account_type }}</td>
+                    <td>{{ transaction.account.name }}</td>
                     <td>{{ transaction.get_status_display }}</td>
                     <td>
                         <a href="{% url 'main:update-transaction' transaction.id %}">Update</a>

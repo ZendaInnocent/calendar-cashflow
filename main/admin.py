@@ -1,15 +1,18 @@
 from django.contrib import admin
 
-from .models import Transaction
+from .models import Transaction, Account
 
-
-class TransactionManager(admin.ModelAdmin):
-    # list_display = ('id', 'user', 'date', 'name', 'amount',
-    #                 'payment_type', 'account', 'status',
-    #                 'starting_amount', 'ending_amount', )
+@admin.register(Transaction)
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'date', 'name', 'amount',
+                    'account', 'status',
+                    'starting_amount', 'ending_amount', )
+    list_display_links = ('user', 'date', 'name', )
     list_filter = ('date', 'account', 'status', )
     search_fields = ('name', 'date', )
     readonly_fields = ('starting_amount', 'ending_amount', )
 
 
-admin.site.register(Transaction, TransactionManager)
+@admin.register(Account)
+class AccountAdmin(admin.ModelAdmin):
+    pass

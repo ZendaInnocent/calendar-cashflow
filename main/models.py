@@ -6,12 +6,17 @@ from accounts.models import User
 
 
 class Account(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField('Account Name', max_length=50)
     account_type = models.CharField('Account Type', max_length=50)
+
+    def __str__(self):
+        return f'{self.name} - {self.account_type}'
 
 
 class Transaction(models.Model):
     STATUS_CHOICES = (
+        (None, 'Choose Status'),
         ('D', 'Deposit'),
         ('W', 'Withdrawal'),
     )
