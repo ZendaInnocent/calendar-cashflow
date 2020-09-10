@@ -19,6 +19,6 @@ urlpatterns = [
          name='add-account'),
     path('update-account/<pk>/', views.AccountUpdateView.as_view(),
          name='update-account'),
-    path('account-list', views.AccountsListView.as_view(),
+    path('accounts-list/', views.AccountsListView.as_view(),
          name='accounts-list'),
 ]
