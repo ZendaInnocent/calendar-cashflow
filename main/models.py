@@ -10,6 +10,9 @@ class Account(models.Model):
     name = models.CharField('Account Name', max_length=50)
     account_type = models.CharField('Account Type', max_length=50)
 
+    class Meta:
+        unique_together = ['name', 'account_type', ]
+
     def __str__(self):
         return f'{self.name} - {self.account_type}'
 
