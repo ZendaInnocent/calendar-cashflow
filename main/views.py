@@ -3,15 +3,15 @@ import calendar
 
 from django.db.models import Sum
 from django.shortcuts import render, reverse, redirect
-from django.views.generic import CreateView, UpdateView, FormView
+from django.views.generic import CreateView, UpdateView, FormView, ListView
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
 from .utils import CashFlowCalendar
-from .models import Transaction
-from .forms import TransactionForm, ContactForm
+from .models import Transaction, Account
+from .forms import TransactionForm, ContactForm, AccountForm
 
 
 class IndexView(SuccessMessageMixin, FormView):
@@ -124,8 +124,6 @@ class TransactionAddView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
 class TransactionUpdateView(LoginRequiredMixin,
                             SuccessMessageMixin, UpdateView):
-    queryset = Transaction
-    form_class = TransactionForm
     success_url = reverse_lazy('main:transactions')
     success_message = 'Transaction updated successfully.'
 
@@ -141,3 +139,43 @@ class TransactionUpdateView(LoginRequiredMixin,
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+class AccountAddView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Account
+    form_class = AccountForm
+    success_url = reverse_lazy('main:accounts-list')
+    success_message = 'Account added successfully.'
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['title'] = 'Add'
+        context['button'] = 'Add'
+        return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class AccountUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    form_class = AccountForm
+    success_url = reverse_lazy('main:accounts-list')
+    success_message = 'Account updated successfully.'
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['title'] = 'Update'
+        context['button'] = 'Save'
+        return context
+
+    def get_queryset(self):
+        return Account.objects.filter(user=self.request.user)
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class AccountsListView(ListView):
+    model = Account

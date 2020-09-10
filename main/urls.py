@@ -15,4 +15,10 @@ urlpatterns = [
          name='add-transaction'),
     path('update-transaction/<pk>/', views.TransactionUpdateView.as_view(),
          name='update-transaction'),
+    path('add-account/', views.AccountAddView.as_view(),
+         name='add-account'),
+    path('update-account/<pk>/', views.AccountUpdateView.as_view(),
+         name='update-account'),
+    path('account-list', views.AccountsListView.as_view(),
+         name='accounts-list'),
 ]

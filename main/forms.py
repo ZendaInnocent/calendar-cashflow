@@ -53,3 +53,10 @@ class ContactForm(forms.Form):
             ['zendainnocent@protonmail.com'],
             fail_silently=False,
         )
+
+
+class AccountForm(forms.ModelForm):
+
+    class Meta:
+        model = Account
+        exclude = ('user', )
