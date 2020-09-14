@@ -111,10 +111,14 @@ class TransactionAddView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('main:transactions')
     success_message = 'Transaction added successfully.'
 
+    def has_account(self):
+        return len(Account.objects.filter(user=self.request.user)) != 0
+
     def get_context_data(self):
         context = super().get_context_data()
         context['title'] = 'Add'
         context['button'] = 'Add'
+        context['has_account'] = self.has_account
         return context
 
     def form_valid(self, form):

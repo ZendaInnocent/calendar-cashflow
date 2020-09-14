@@ -6,6 +6,9 @@ Accounts List - {{ block.super }}
 
 {% block content %}
 <div class="container py-5">
+    <a href="{% url 'main:add-account' %}" class="btn btn-primary mb-3">
+        Add Account
+    </a>
     <ul>
         {% for account in object_list %}
         <li>

@@ -7,6 +7,16 @@
 
 {% block content %}
 <div class="container py-5">
+    {% if title == 'Add' %}
+    {% if not has_account %}
+    <div class="alert alert-primary" role="alert">
+        <strong>You must have at least one account to be able to add transaction.</strong>
+        <a href="{% url 'main:add-account' %}?next={% url 'main:add-transaction' %}">
+            Add Account
+        </a>
+    </div>
+    {% endif %}
+    {% endif %}
     <h2>{{ title }} transaction</h2>
     <form method="POST">
         {% csrf_token %}
